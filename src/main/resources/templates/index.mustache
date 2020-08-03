@@ -1,0 +1,44 @@
+{{>layout/header}}
+    <h1>스프링 부트로 시작하는 웹 서비스</h1>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <a href="/posts/save" role="button" class="btn btn-primary">Save Post</a>
+                {{#userName}}
+                    <br>
+                    <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+                    Logged in as: <span id="user">{{userName}}</span>
+                {{/userName}}
+                {{^userName}}
+                    <br>
+                    <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
+                    <br>
+                    <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">Naver Login</a>
+                {{/userName}}
+            </div>
+        </div>
+
+        <br>
+        <table class="table table-horizontal table-bordered">
+            <thead class="thead-strong">
+            <tr>
+                <th>Post ID</th>
+                <th>Title</th>
+                <th>Writer</th>
+                <th>Last Modified</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+            {{#posts}}
+                <tr>
+                    <td>{{id}}</td>
+                    <td><a href="/posts/update/{{id}}">{{title}}</a></td>
+                    <td>{{author}}</td>
+                    <td>{{modifiedDate}}</td>
+                </tr>
+            {{/posts}}
+            </tbody>
+        </table>
+    </div>
+
+{{>layout/footer}}
