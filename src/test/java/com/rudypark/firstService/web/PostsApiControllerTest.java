@@ -2,9 +2,9 @@ package com.rudypark.firstService.web;
 
 import com.rudypark.firstService.domain.posts.Posts;
 import com.rudypark.firstService.domain.posts.PostsRepository;
-import com.rudypark.firstService.web.dto.PostsResponseDto;
 import com.rudypark.firstService.web.dto.PostsSaveRequestDto;
 import com.rudypark.firstService.web.dto.PostsUpdateRequestDto;
+import org.json.JSONArray;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -99,23 +99,29 @@ public class PostsApiControllerTest {
         assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
     }
 
-    // 이거 수정해야됨 통과안됨
     @Test
     public void Posts_Get() throws Exception {
 
         // given
+        String title = "title";
+        String content = "content";
+        String author = "author";
+
         Posts saved = postsRepository.save(Posts.builder()
-                .title("title")
-                .content("content")
-                .author("author")
+                .title(title)
+                .content(content)
+                .author(author)
                 .build());
 
         Long id = saved.getId();
 
         String url = "http://localhost:" + port + "/api/v1/posts/" + id;
 
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity entity = new HttpEntity<>(headers);
+
         // when
-        ResponseEntity<PostsResponseDto> responseEntity = restTemplate.getForEntity(url, PostsResponseDto.class);
+        ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, JSONArray.class);
 
         // then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
