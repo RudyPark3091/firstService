@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import com.rudypark.firstService.domain.user.Role;
 import javax.persistence.*;
 
 @Getter
